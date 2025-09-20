@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Remote Controller Project | Electrical Engineering Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066cc;
+            --secondary: #004d99;
+            --accent: #00a8cc;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #e9ecef;
+            --text: #333333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--dark);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .project-hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #e3e6ff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .hero-text {
+            flex: 1;
+            padding-right: 50px;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+        
+        .hero-text h1 span {
+            color: var(--primary);
+        }
+        
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .project-tag {
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: var(--primary);
+            color: white;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 20px auto 0;
+        }
+        
+        /* Project Overview */
+        .overview {
+            background-color: white;
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .overview-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .overview-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .overview-content p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .feature-list {
+            margin-top: 30px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        
+        /* Hardware Components */
+        .hardware {
+            background-color: var(--gray);
+        }
+        
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .component-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .component-image {
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            padding: 20px;
+        }
+        
+        .component-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .component-info {
+            padding: 25px;
+        }
+        
+        .component-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .component-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        /* Design Section */
+        .design {
+            background-color: white;
+        }
+        
+        .design-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .design-image {
+            text-align: center;
+        }
+        
+        .design-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .design-details h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .design-details p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        /* Software Section */
+        .software {
+            background-color: var(--gray);
+        }
+        
+        .software-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 20px;
+        }
+        
+        .software-details h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .software-details p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            background-color: white;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            height: 250px;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-column p {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content, .overview-grid, .design-content, .software-content {
+                flex-direction: column;
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+            
+            .overview-image {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-btns .btn {
+                margin: 10px 0;
+                display: block;
+                width: 100%;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+            
+            .components-grid, .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-microchip"></i> Electro<span>Innovate</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/index.html#projects">Projects</a></li>
+                    <li><a href="/index.html#about">About</a></li>
+                    <li><a href="/index.html#contact">Contact</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="project-hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Flite <span>Controller</span> PCB</h1>
+                    <p>A custom-designed wireless Flite controller PCB with proprietary Firmware.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">ESP32</span>
+                        <span class="project-tag">ESP-NOW</span>
+                        <span class="project-tag">Plug & Play Design</span>
+                        <span class="project-tag">Simplicity</span>
+                    </div>
+                    <div class="hero-btns">
+                        <a href="#hardware" class="btn">View Details</a>
+                        <a href="index.html#projects" class="btn btn-outline">All Projects</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="/image/Final_drone_pcb_track.PNG" alt="Drone Flite Controller PCB">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="section overview" id="overview">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Overview</h2>
+                <p>Complete design and implementation of a custom drone remote controller</p>
+            </div>
+            <div class="overview-grid">
+                <div class="overview-content">
+                    <h3>Research and Development of Drone Flite Controller PCB</h3>
+                    <p>This project involved designing and building a fully functional wireless flite controller specifically for drone operation. The controller features plug and play design for easy swaping of components,
+                       ESP-NOW protocol for communication between drone and controller, and a custom PCB designed for reliability and performance.</p>
+                    <p>The remote was developed as part of the MS101 Makerspace initiative, showcasing expertise in electronics design, firmware development, and mechanical integration.</p>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-wifi"></i>
+                            </div>
+                            <div>
+                                <h4>Wireless Connectivity</h4>
+                                <p>ESP32-based with both Bluetooth and WiFi capabilities</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+                            <div>
+                                <h4>Custom PCB Design</h4>
+                                <p>Professional-grade PCB with power management and protection</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div>
+                                <h4>Proprietary Firmware</h4>
+                                <p>Custom firmware for precise control and calibration</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="overview-image">
+                    <img src="/image/hero_drone_pcb.PNG" alt="Remote Design">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hardware Components -->
+    <section class="section hardware" id="hardware">
+        <div class="container">
+            <div class="section-title">
+                <h2>Hardware Components</h2>
+                <p>Key electronic components used in the remote controller</p>
+            </div>
+            <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-image">
+                        <img src="/image/esp32.PNG" alt="ESP32 Module">
+                    </div>
+                    <div class="component-info">
+                        <h3>ESP32 Microcontroller</h3>
+                        <p>Low-cost, low-power system on chip with integrated Wi-Fi and dual-mode Bluetooth. Features a dual-core microprocessor.</p>
+                    </div>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-image">
+                        <img src="/image/nano.jpeg" alt="Arduino Nano">
+                    </div>
+                    <div class="component-info">
+                        <h3>Arduino Nano</h3>
+                        <p>Low-cost, compact microcontroller board based on the ATmega328P. Using as flight controller.</p>
+                    </div>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-image">
+                        <img src="/image/Voltage_divider.png" alt="Voltage Divider">
+                    </div>
+                    <div class="component-info">
+                        <h3>Voltage Divider</h3>
+                        <p>Voltage divider circuit for scaling down battery voltage for microcontroller ADC input with Reverse polarity protection.</p>
+                    </div>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-image">
+                        <img src="/image/regulator.png" alt="Voltage Regulator">
+                    </div>
+                    <div class="component-info">
+                        <h3>LD1117 Voltage Regulator</h3>
+                        <p>3.3V voltage regulator with heat sink for stable power delivery to all components. Provides up to 800mA output current.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Section -->
+    <section class="section design" id="design">
+        <div class="container">
+            <div class="section-title">
+                <h2>PCB Design & Features</h2>
+                <p>Professional PCB design with protection and management systems</p>
+            </div>
+            <div class="design-content">
+                <div class="design-image">
+                    <img src="/Final_images/Drone_PCB_multi_v1.PNG" alt="PCB Design">
+                </div>
+                <div class="design-details">
+                    <h3>Circuit Design Highlights</h3>
+                    <p>The custom PCB includes several important features for reliability and safety:</p>
+                    <ul>
+                        <li>Calculates thickness of track.</li>
+                        <li>Reverse battery protection for main logic section.</li>
+                        <li>Battery feedback circuit with voltage divider for monitoring.</li>
+                        <li>Easy plug and play design.</li>
+                        <li>EMF shilding, to prevent form EMF.</li>
+                    </ul>
+                    <p>The board was designed using EasyEDA and features professional-grade layout with proper grounding, power distribution, and signal integrity considerations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Software Section -->
+    <section class="section software" id="software">
+        <div class="container">
+            <div class="section-title">
+                <h2>Software & Firmware</h2>
+                <p>Custom firmware development for drone control</p>
+            </div>
+            <div class="software-content">
+                <div class="software-details">
+                    <h3>Firmware Architecture</h3>
+                    <p>The flite controller runs custom firmware developed in Arduino IDE with several key libraries:</p>
+                    <ul>
+                        <li>ESP-NOW for efficient wireless communication</li>
+                        <li>Arduino library for controlling MPU6050 module.</li>
+                        <li>Wire library allows you to communicate with I2C devices.</li>
+                        <li>EEPROM for storing calibration data</li>
+                    </ul>
+                    <p>The firmware includes calibration, battery monitoring, and failsafe mechanisms for safe operation.</p>
+                </div>
+                <div class="code-example">
+                    <pre><code>#include <esp_now.h>
+#include <WiFi.h>
+#include <Adafruit_SSD1306.h>
+#include <EEPROM.h>
+
+// Joystick calibration structure
+struct CalibrationData {
+  int xMin, xMax, yMin, yMax;
+  int centerX, centerY;
+};
+
+void setup() {
+  // Initialize components
+  initDisplay();
+  initJoysticks();
+  initWireless();
+  
+  // Check for calibration data
+  if (!isCalibrated()) {
+    runCalibrationSequence();
+  }
+  
+  // Start main operation
+  startMainLoop();
+}
+
+void loop() {
+  readJoysticks();
+  updateDisplay();
+  sendControlData();
+  checkBattery();
+  delay(10);
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section gallery" id="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2>Project Gallery</h2>
+                <p>Visual documentation of the design and build process</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="/image/white_track.png" alt="PCB Design">
+                    <div class="gallery-caption">PCB Schematic Design</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/image/soldering.png" alt="Soldering Process">
+                    <div class="gallery-caption">Component Soldering</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/image/remote_assembly.png" alt="Assembly">
+                    <div class="gallery-caption">Controller Assembly</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/image/joy_axis.PNG" alt="Testing">
+                    <div class="gallery-caption">Functionality Testing</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/image/acrylic_remote_v1.png" alt="Case Design">
+                    <div class="gallery-caption">3D Case Design</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="/image/Drone_PCB_multi_v1.PNG" alt="Final Product">
+                    <div class="gallery-caption">Flite Controller</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ElectroInnovate</h3>
+                    <p>Innovative electrical engineering solutions for specialized applications and cutting-edge technology.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Project Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#overview">Project Overview</a></li>
+                        <li><a href="#hardware">Hardware Components</a></li>
+                        <li><a href="#design">PCB Design</a></li>
+                        <li><a href="#software">Software</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Other Projects</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Custom Drone with Proprietary Firmware</a></li>
+                        <li><a href="#">Industrial Automation System</a></li>
+                        <li><a href="#">Solar Power Optimization</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Electrical Engineering Portfolio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
